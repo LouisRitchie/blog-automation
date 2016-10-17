@@ -1,3 +1,4 @@
 ./scripts/prompt-for-data
 ./scripts/prompt-for-blog
+./scripts/record-vlog
 ./scripts/upload
