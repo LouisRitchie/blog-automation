@@ -1,8 +1,6 @@
 #!/bin/sh
 
-get_date () {
-  date +%y-%m-%d;
-}
-
-read -p "Press enter to run recordmydesktop." 
-recordmydesktop ~/auto/data/$(get_date).ogv
+# Read statements stop the upload from happening until I can approve that the video has done encoding itself
+read -p "Press enter to run recordmydesktop." i
+mate-terminal -e ~/auto/scripts/rcd
+read -p "Press enter when it's done." j

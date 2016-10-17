@@ -1,0 +1,8 @@
+#!/bin/sh
+
+get_date () {
+  date +%y-%m-%d;
+}
+
+recordmydesktop -o ~/auto/data/$(get_date).ogv
+
