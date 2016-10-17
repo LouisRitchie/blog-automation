@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# remove yesterday's upload commands
+rm ~/auto/scripts/sftp-commands
+
+get_date () {
+  date +%y-%m-%d;
+}
+
+# Find every file that starts with today's date.
+for file in ~/auto/data/$(get_date)*; 
+do
+  echo "put $file deppth/data" | cat - >> ~/auto/scripts/sftp-commands
+done
+
+echo "exit" | cat - >> ~/auto/scripts/sftp-commands
+
+sftp -b ~/auto/scripts/sftp-commands tito@deppth.me

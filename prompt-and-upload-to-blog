@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Prompt Louis for today's data, blog post, video, and upload
+mate-terminal -e ~/auto/start

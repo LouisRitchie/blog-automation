@@ -1,0 +1,55 @@
+#!/bin/sh
+
+get_date () {
+  date +%y-%m-%d;
+}
+
+prompt() {
+  read -p "Title: " TITLE
+  read -p "Subtitle: " SUBTITLE
+  read -p "What do you want to say? " WORDS
+  check
+}
+
+check() {
+  while true; do
+
+    echo "\\n
+The following will be written to Louis's blog blurb list.
+  Worked hours: $TITLE\n\
+  Focus Intensity: $SUBTITLE\n\
+  Effectiveness: $WORDS\n\
+    "
+
+    read -p "\
+Is this OK? " yn
+
+    case $yn in
+      [Yy]* ) break;;
+      [Nn]* ) prompt;;
+      * ) echo "Please answer y or n ";;
+    esac 
+
+  done
+}
+
+write_data() {
+  echo "#$TITLE\n##$SUBTITLE\n$WORDS" | cat - > ~/auto/data/$FILENAME 
+}
+
+
+# get the date, log that the script started, and make today's data file.
+DATE=$(get_date)
+
+echo "$DATE --- write-blog script was executed... " | cat - >> ~/auto/log
+
+echo "Hey Louis, write a blurb for your blog!"
+
+prompt
+
+FILE_TITLE=$(echo "$TITLE" | tr [:blank:] - )
+FILENAME=$(get_date)-$FILE_TITLE.md
+
+write_data
+
+echo "Wrote data to ~/auto/data/$FILENAME."

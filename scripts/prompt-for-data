@@ -1,0 +1,51 @@
+#!/bin/sh
+
+get_date () {
+  date +%y-%m-%d;
+}
+
+prompt() {
+  read -p "How many hours did you spend working? " WORKED_HOURS
+  read -p "How focused were you, from 1-10? " FOCUS_INTENSITY
+  read -p "How effective were you, from 1-10? " EFFECTIVENESS
+  read -p "Total lines of code written? " TOTAL_LOC
+  check
+}
+
+check() {
+  while true; do
+
+    echo "\\n
+Today's stats are as follows.
+  Worked hours: $WORKED_HOURS\n\
+  Focus Intensity: $FOCUS_INTENSITY\n\
+  Effectiveness: $EFFECTIVENESS\n\
+  Total Lines of Code: $TOTAL_LOC
+    "
+
+    read -p "\
+Is this OK? " yn
+
+    case $yn in
+      [Yy]* ) break;;
+      [Nn]* ) prompt;;
+      * ) echo "Please answer y or n ";;
+    esac 
+
+  done
+}
+
+write_data() {
+  echo "$WORKED_HOURS\n$FOCUS_INTENSITY\n$EFFECTIVENESS\n$TOTAL_LOC" | cat - > ~/auto/data/$FILENAME 
+}
+
+
+# get the date, log that the script started, and make today's data file.
+DATE=$(get_date)
+FILENAME=$DATE.log
+echo "$DATE --- gather-data script was executed... " | cat - >> ~/auto/log
+
+prompt
+write_data
+
+echo "Wrote data to ~/auto/data/$FILENAME."
